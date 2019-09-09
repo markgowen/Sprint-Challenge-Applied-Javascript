@@ -22,20 +22,20 @@ const cardsContainer = document.querySelector('.cards-container');
 
 let articleData = {};
 
-function createArticle(articleData) {
-  const article = document.createElement('div');
+function createArticleCard(articleData) {
+  const card = document.createElement('div');
   const headline = document.createElement('div');
   const author = document.createElement('div');
   const authorImg = document.createElement('img');
   const authorName = document.createElement('span');
 
-  article.append(headline);
-  article.append(author);
+  card.append(headline);
+  card.append(author);
   author.appendChild(authorImg);
   author.appendChild(authorName);
 
-  article.classList.add('card');
-  article.classList.add('headline');
+  card.classList.add('card');
+  card.classList.add('headline');
   author.classList.add('author');
   authorImg.classList.add('img-container');
   authorName.classList.add('span');
@@ -44,8 +44,8 @@ function createArticle(articleData) {
   authorImg.src = articleData.authorPhoto;
   authorName.textContent = articleData.authorName;
 
-  console.log(article);
-  return article;
+  console.log(card);
+  return card;
 }
 
 axios
@@ -56,7 +56,9 @@ axios
     Object.keys(articleData).forEach(function(item) {
       console.log(item);
       console.log(articleData[item]);
-      cardsContainer.appendChild(createArticle(articleData));
+      articleData[item].forEach(itemData => {
+        cardsContainer.appendChild(createArticleCard(itemData));
+      });
     });
   })
   .catch(function(error) {
