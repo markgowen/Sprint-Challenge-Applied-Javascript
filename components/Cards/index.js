@@ -17,3 +17,68 @@
 // </div>
 //
 // Create a card for each of the articles and add the card to the DOM.
+
+const cardsContainer = document.querySelector('.cards-container');
+
+let articleData = {};
+
+function createArticleCard(articleData) {
+  const card = document.createElement('div');
+  const headline = document.createElement('div');
+  const author = document.createElement('div');
+  const authorImg = document.createElement('img');
+  const authorName = document.createElement('span');
+
+  card.append(headline);
+  card.append(author);
+  author.appendChild(authorImg);
+  author.appendChild(authorName);
+
+  card.classList.add('card');
+  card.classList.add('headline');
+  author.classList.add('author');
+  authorImg.classList.add('img-container');
+  authorName.classList.add('span');
+
+  headline.textContent = articleData.headline;
+  authorImg.src = articleData.authorPhoto;
+  authorName.textContent = articleData.authorName;
+
+  console.log(card);
+  return card;
+}
+
+axios
+  .get('https://lambda-times-backend.herokuapp.com/articles')
+  .then(function(response) {
+    console.log(response);
+    articleData = response.data.articles;
+    Object.keys(articleData).forEach(function(item) {
+      console.log(item);
+      console.log(articleData[item]);
+      articleData[item].forEach(itemData => {
+        cardsContainer.appendChild(createArticleCard(itemData));
+      });
+    });
+  })
+  .catch(function(error) {
+    console.log(error);
+  })
+  .finally(function() {});
+
+//   axios
+//   .get('https://lambda-times-backend.herokuapp.com/articles')
+//   .then(function(response) {
+//     console.log(response);
+//     articleData = response.data.articles;
+//     console.log('This is the article data');
+//     Object.keys(articles).forEach(function (item) {
+//         console.log(item);
+//         console.log(articles[item]);
+//         cardsContainer.appendChild(createArticle(articleData));
+//       });
+//     });
+//   .catch(function(error) {
+//     console.log(error);
+//   })
+//   .finally(function() {});
